@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://fonts.googleapis.com/css?family=Raleway" rel="stylesheet">
+    <link rel="stylesheet" href="main.css">
+    <script src="savestorage.js"></script>
+</head>
+<body>
+    <div id="header" style="margin-bottom: 5%;">
+        <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/5e/Logo_of_Hochschule_Kaiserslautern.png/1024px-Logo_of_Hochschule_Kaiserslautern.png" alt="HSKL Logo" width="512" height="266" style="float: left"> 
+        <p style="float: center; margin-bottom: 20%;">Kolloquimsprotokoll</p>
+    </div>
+
+    <div id="gpruef_und_pruefer_daten" style="clear: both">
+        <div id="gpruef_output_div">
+            <p class="output_label">Anrede:</p>
+            <p id="output_gpruef_anrede" class="output_box">Placeholder</p>
+
+            <p class="output_label">Vorname:</p>
+            <p id="output_gpruef_vname" class="output_box">Placeholder</p>
+
+            <p class="output_label">Nachname:</p>
+            <p id="output_gpruef_nname" class="output_box">Placeholder</p>
+
+            <p class="output_label">Matrikelnummer:</p>
+            <p id="output_gpruef_matnr" class="output_box">Placeholder</p>
+
+            <p class="output_label">Geburtsdatum</p>
+            <p id="output_gpruef_gbdatum" class="output_box">Placeholder</p>
+        </div>
+
+        <div id="pruefer_output_div">
+            <p class="output_label">1. Prüfer:</p>
+            <p id="output_gpruef_anrede" class="output_box">Placeholder</p>
+
+            <p class="output_label">2. Prüfer:</p>
+            <p id="output_gpruef_vname" class="output_box">Placeholder</p>
+
+            <p class="output_label">Beisitzer:</p>
+            <p id="output_gpruef_nname" class="output_box">Placeholder</p>
+
+            <!--<p class="output_label">:</p>
+            <p id="output_gpruef_matnr" class="output_box">Placeholder</p>
+
+            <p class="output_label"></p>
+            <p id="output_gpruef_gbdatum" class="output_box">Placeholder</p>-->
+        </div>
+        <div id="fragen_output" style="clear: both">
+            <p class="output_label">Frage 1:</p>
+            <textarea class="frage_antwort_output">Gestellte Frage</textarea>
+            <textarea class="frage_antwort_output">Antwort</textarea>
+    
+            <p class="output_label">Frage 2:</p>
+            <textarea class="frage_antwort_output">Gestellte Frage</textarea>
+            <textarea class="frage_antwort_output">Antwort</textarea>
+    
+            <p class="output_label">Frage 3:</p>
+            <textarea class="frage_antwort_output">Gestellte Frage</textarea>
+            <textarea class="frage_antwort_output">Antwort</textarea>
+        </div>
+    </div>
+    
+
+
+<script>
+    storageProfileString = localStorage.getItem("regForm_saveStorage");
+    console.log(storageProfileString);
+    var testObject = JSON.parse(storageProfileString);
+    console.log(testObject);
+    console.log(testObject[0]);
+    console.log(testObject[0].value);
+    document.getElementById("output_gpruef_anrede").textContent = testObject[0].value;
+    document.getElementById("output_gpruef_vname").textContent = testObject[1].value;
+    document.getElementById("output_gpruef_nname").textContent = testObject[2].value;
+    document.getElementById("output_gpruef_matnr").textContent = testObject[3].value;
+    document.getElementById("output_gpruef_gbdatum").textContent = testObject[4].value;
+
+    var amountAnswer = testObject.filter((obj) => obj.name.includes("antwort")).length;
+
+    console.log(amountAnswer);
+</script>
+</body>
+</html>
