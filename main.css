@@ -1,11 +1,5 @@
-<style>
-* {
-  box-sizing: border-box;
-}
-
 body {
   background-color: #f1f1f1;
-  margin-top: 2%;
   font-family: Raleway;
 }
 
@@ -18,13 +12,34 @@ body {
   min-width: 300px;
 }
 
+#header {
+  margin-bottom: 10%;
+}
+
+#headerimage{
+  float:left;
+  margin-bottom: 5%;
+  margin-left:5%;
+}
+
+#headertext {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 30%;
+  border: 2px dashed #f69c55;
+  float: right;
+  margin-top: 7%;
+  margin-right: 20%;
+}
+
 #gpruef_und_pruefer_daten {
   position: relative;
   margin-bottom: 3%;
   background-color:  #ffffff;
   margin-left: 5%;
   margin-right: 5%;
-  margin-top: 50px;
+  margin-top: 3%;
   overflow: auto;
 }
 
@@ -44,20 +59,14 @@ body {
   min-width: 300px;
   font-family: Raleway;
   margin-right: 5%;
-  float: right;
+  float: left;
 }
 
 #fragen_output {
   background-color:  #ffffff;
-  margin-top: 200px;
-  width:90%
+  width:90%;
   font-family: Raleway;
-  margin-right: 3%;
-  margin-left: 5%;
-}
-
-textarea {
-  width: 90%;
+  margin-right: 5%;
   margin-left: 5%;
 }
 
@@ -86,6 +95,15 @@ input {
   font-size: 17px;
   font-family: Raleway;
   border: 1px solid #aaaaaa;
+}
+
+textarea {
+  padding: 10px;
+  width: 90%;
+  font-size: 17px;
+  font-family: Raleway;
+  border: 1px solid #aaaaaa;
+  resize: none;
 }
 
 /* Mark input boxes that gets an error on validation: */
@@ -136,4 +154,3 @@ button:hover {
 .step.finish {
   background-color: #4CAF50;
 }
-</style>

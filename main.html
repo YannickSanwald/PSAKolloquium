@@ -6,8 +6,8 @@
 <script src="savestorage.js"></script>
 <body>
 
-<form id="regForm" action="/action_page.php">
-  <h1>Kolloquimsprotokoll</h1>
+<form id="regForm" action="output.html">
+  <h1>Kolloquiumsprotokoll</h1>
   <!-- One "tab" for each step in the form: -->
   <div class="tab" id = "tab1">Informationen Geprüfter:
     <p><input placeholder="Anrede" name="gpruef_anrede"></p>
@@ -18,13 +18,19 @@
     <p><input placeholder="Geburtsort" oninput="this.className = ''" name="gpruef_gbort"></p>
     <p><input placeholder="Prüfungsordnung" oninput="this.className = ''" name="gpruef_po"></p>
     <p><input placeholder="Kolloquimstyp" oninput="this.className = ''" name="gpruef_kqtyp"></p>
-    <p id="testtext" name="testtext">123wtf</p>
   </div>
-  <div class="tab" id ="tab2">Prüfer:
-    <p><input placeholder="1. Prüfer" oninput="this.className = ''" name="pruef_1"></p>
-    <p><input placeholder="2. Prüfer" oninput="this.className = ''" name="pruef_2"></p>
-    <p><input placeholder="Beisitzer" oninput="this.className = ''" name="beisitz_1"></p>
-    <button type="button" id="Buttonadd" onclick=newField()>Prüfer hinzufügen</button>
+  <div class="tab" id ="tab2">
+    <div id="tab2pruef">Prüfer:
+      <p><input placeholder="1. Prüfer" oninput="this.className = ''" name="pruef_1"></p>
+      <p><input placeholder="2. Prüfer" oninput="this.className = ''" name="pruef_2"></p>
+    </div>
+    <button type="button" id="tab2PruefAdd" onclick="newTextFormField('pruef','tab2pruef')">Prüfer hinzufügen</button>
+    <button type="button" id="tab2PruefRemove" onclick="removeTextFormField('pruef','tab2pruef')">Prüfer entfernen</button>
+    <div id ="tab2beisitz">Beisitzer:
+      <p><input placeholder="1. Beisitzer" oninput="this.className = ''" name="beisitz_1"></p>
+    </div>
+    <button type="button" id="tab2BeisitzAdd" onclick="newTextFormField('beisitz','tab2beisitz')">Beisitzer hinzufügen</button>
+    <button type="button" id="tab2BeisitzRemove" onclick="removeTextFormField('beisitz','tab2beisitz')">Beisitzer entfernen</button>
   </div>
   <div class="tab" id="tab3">Gesundheitsfrage:
     <p>Wurde die Gesundheitsfrage gestellt und von dem Studierenden bestätigt?</p>
@@ -32,11 +38,28 @@
     <label for="vehicle1">Gesundheitsfrage gestellt und bestätigt.</label><br>
   </div>
   <div class="tab" id="tab4">Prüfungsfragen
-    <p><input placeholder="Gestellte Frage 1" oninput="this.className = ''" name="frage_1"></p>
-    <p><input type ="textarea" placeholder="Antwort 1" oninput="this.className = ''" name="antwort_1"></p>
-    <p><input placeholder="Gestellte Frage 2" oninput="this.className = ''" name="frage_1"></p>
-    <p><input type ="textarea" placeholder="Antwort 2" oninput="this.className = ''" name="antwort_2"></p>
-    <button type="button" id="frageButton" onclick=newFrage()>Frage hinzufügen</button>
+    <div id="tab4frageantwort">
+      <p><input placeholder="Gestellte Frage 1" oninput="this.className = ''" name="frage_1"></p>
+      <textarea placeholder="Antwort 1" name="antwort_1" rows="5"></textarea>
+      <p><input placeholder="Gestellte Frage 2" oninput="this.className = ''" name="frage_2"></p>
+      <textarea placeholder="Antwort 2" name="antwort_2" rows="5"></textarea>
+    </div>
+    <button type="button" id="tab4FrageAdd" onclick="newTextFormField('frage','tab4frageantwort')">Weitere Frage hinzufügen</button>
+    <button type="button" id="tab4FrageRemove" onclick="removeTextFormField('frage','tab4frageantwort')">Weitere Frage entfernen</button>
+  </div>
+  <div class="tab" id="tab5">Gesamtnote
+    <select name="note1">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3">3</option>
+      <option value="4">4</option>
+      <option value="5">5</option>
+    </select>
+    <select name="note2">
+      <option value=",0">0</option>
+      <option value=",3">3</option>
+      <option value=",7">7</option>
+    </select>
   </div>
   <div style="overflow:auto;">
     <div style="float:right;">
@@ -50,6 +73,7 @@
     <span class="step"></span>
     <span class="step"></span>
     <span class="step"></span>
+    <span class="step"></span>
   </div>
 </form>
 
@@ -57,60 +81,86 @@
 <script src="savestorage.js"></script>
 <script>
 var currentTab = 0; // Current tab is set to be the first tab (0)
-var addbutton = document.getElementById('Buttonadd');
-var frageButton = document.getElementById('frageButton');
-//var regForm = document.getElementById('tab2');
+//var pruefRemoveButton = document.getElementById('ButtonPruefRemove')
 var pruef_nr = 3;
-var frage_nr = 1;
+var beisitz_nr = 2;
+var frage_nr = 3;
 var storedValue = 0;
 showTab(currentTab); // Display the current tab
 
-
-
-addbutton.onclick = function newField() {
-  switch (currentTab) {
-    case 0:
+// Todo: Ordentliche Kommentare für Funktionserklärung
+function newTextFormField(fieldName, tabId) {
+  var editName, editPlaceholder;
+  switch(fieldName) {
+    case 'pruef':
+      editName = "pruef_" + pruef_nr,
+      editPlaceholder = pruef_nr + ". Prüfer";
+      newTextField(editName,editPlaceholder,tabId);
+      pruef_nr++;
       break;
-    case 1:
-      newTextField("pruefer_" + pruef_nr, pruef_nr + ". Prüfer");
-      pruef_nr = pruef_nr + 1;
+    case 'beisitz':
+      editName = "beisitz_" + beisitz_nr, 
+      editPlaceholder = beisitz_nr + ". Beisitzer";
+      newTextField(editName,editPlaceholder,tabId);
+      beisitz_nr++;
+      break;
+    case 'frage':
+      editName = "frage_" + frage_nr, editPlaceholder = frage_nr + ". Frage";
+      newTextField(editName,editPlaceholder,tabId);
+      editName = "antwort_" + frage_nr, editPlaceholder = frage_nr + ". Antwort";
+      newTextArea(editName,editPlaceholder,tabId);
+      frage_nr++;
       break;
     default:
       break;
   }
 }
 
-frageButton.onclick = function newFrage() {
-  switch (currentTab) {
-    case 3:
-      newTextArea("frage_"+ frage_nr, frage_nr + ". Frage");
-      frage_nr = frage_nr + 1;
+
+function removeTextFormField(fieldName, tabId) {
+  removeInput(tabId); //Entfernt das letzte Feld im Div der gecallten tabId
+  switch(fieldName) { //Finde den fieldName und subtrahiere die entsprechende Zahl der Placeholder/JSON Namen
+    case 'pruef':
+      pruef_nr = pruef_nr - 1;
+      break;
+    case 'beisitz':
+      beisitz_nr = beisitz_nr - 1;
+      break;
+    case 'frage':
+      removeInput(tabId); //Da gleichzeitig Frage + Antwort entfernt werden, wird hier noch ein Inputfeld entfernt
+      frage_nr = frage_nr -1;
       break;
     default:
       break;
   }
 }
 
-function newTextField(id, placeholder) {
-  var textwrap = document.createElement('p');
+function newTextField(name, placeholder, tabId, fieldType) {
   var newField = document.createElement('input');
-  newField.setAttribute('type','text');
-  newField.setAttribute('name',id);
+  newField.setAttribute('name',name);
   newField.setAttribute('placeholder',placeholder);
-  textwrap.append(newField);
-  tab2.append(textwrap);
+  document.getElementById(tabId).appendChild(newField);
   saveStorage('#regForm');
 }
 
-function newTextArea(id, placeholder) {
-  var textwrap = document.createElement('p');
-  var newField = document.createElement('input');
-  newField.setAttribute('type','text');
-  newField.setAttribute('name',id);
-  newField.setAttribute('placeholder',placeholder);
-  textwrap.append(newField);
-  tab4.append(textwrap);
+function newTextArea(name, placeholder, tabId, fieldType) {
+  var newTextArea = document.createElement('textarea');
+  newTextArea.setAttribute('name',name);
+  newTextArea.setAttribute('placeholder',placeholder);
+  newTextArea.setAttribute('rows','5');
+  document.getElementById(tabId).appendChild(newTextArea);
   saveStorage('#regForm');
+}
+
+
+function removeInput(tabId) {
+  var allInputs = document.getElementById(tabId).querySelectorAll('input, textarea'), 
+  totalInputs = allInputs.length;
+  if (totalInputs > 1) {
+    allInputs[totalInputs - 1].parentNode.removeChild(allInputs[totalInputs - 1]);
+    localStorage.removeItem("regForm_saveStorage");
+    saveStorage('#regForm');
+  }
 }
 
 function showTab(n) {
