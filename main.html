@@ -19,11 +19,12 @@
     <p><input placeholder="Prüfungsordnung" oninput="this.className = ''" name="gpruef_po"></p>
     <p><input placeholder="Kolloquimstyp" oninput="this.className = ''" name="gpruef_kqtyp"></p>
   </div>
-  <div class="tab" id ="tab2">
+  <div class="tab" id ="tab2">Datum des Koloquiums:
+    <p><input type="date" placeholder="Datum des Koloquiums" oninput="this.className = ''" name="koloq_datum"></p>
     <div id="tab2pruef">Prüfer:
       <p><input placeholder="1. Prüfer" oninput="this.className = ''" name="pruef_1"></p>
-      <p><input placeholder="2. Prüfer" oninput="this.className = ''" name="pruef_2"></p>
     </div>
+
     <button type="button" id="tab2PruefAdd" onclick="newTextFormField('pruef','tab2pruef')">Prüfer hinzufügen</button>
     <button type="button" id="tab2PruefRemove" onclick="removeTextFormField('pruef','tab2pruef')">Prüfer entfernen</button>
     <div id ="tab2beisitz">Beisitzer:
@@ -82,7 +83,7 @@
 <script>
 var currentTab = 0; // Current tab is set to be the first tab (0)
 //var pruefRemoveButton = document.getElementById('ButtonPruefRemove')
-var pruef_nr = 3;
+var pruef_nr = 2;
 var beisitz_nr = 2;
 var frage_nr = 3;
 var storedValue = 0;
